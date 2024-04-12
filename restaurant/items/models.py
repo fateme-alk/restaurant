@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 
 
@@ -24,10 +25,12 @@ class Category(models.Model):
 
 class Item(models.Model):
     name = models.CharField(max_length=30)
-    category = models.ManyToManyField(Category)
-    price = models.DecimalField(decimal_places=2, max_digits=10)
+    categories = models.ManyToManyField(Category)
+    price = models.DecimalField(decimal_places=0, max_digits=10)
     ingredients = models.TextField()
-    preparation_time = models.IntegerField()
+    preparation_time = models.PositiveIntegerField(
+        validators=[MinValueValidator(1)]
+    )
     # image = models.ImageFiled()
 
     def __str__(self):
